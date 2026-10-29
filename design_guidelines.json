@@ -1,0 +1,173 @@
+{
+  "app_name": "PAUSA",
+  "personality": "4 Tactile / Playful LIGHT",
+  "personality_one_liner": "A cheerful, vibrant, and highly tactile casual game interface that feels responsive, plush, and inherently playful.",
+  "color": {
+    "surface": "#FFFBF0",
+    "onSurface": "#2D3142",
+    "surfaceSecondary": "#FFFFFF",
+    "onSurfaceSecondary": "#2D3142",
+    "surfaceTertiary": "#F0F4F8",
+    "onSurfaceTertiary": "#475569",
+    "surfaceInverse": "#2D3142",
+    "onSurfaceInverse": "#FFFFFF",
+    "brand": "#14B8A6",
+    "onBrand": "#FFFFFF",
+    "brandPrimary": "#FF6B6B",
+    "onBrandPrimary": "#FFFFFF",
+    "brandSecondary": "#8B5CF6",
+    "onBrandSecondary": "#FFFFFF",
+    "brandTertiary": "#FBBF24",
+    "onBrandTertiary": "#6B4226",
+    "success": "#34D399",
+    "onSuccess": "#064E3B",
+    "warning": "#FBBF24",
+    "onWarning": "#78350F",
+    "error": "#EF4444",
+    "onError": "#FFFFFF",
+    "info": "#38BDF8",
+    "onInfo": "#0C4A6E",
+    "border": "#E2E8F0",
+    "borderStrong": "#CBD5E1",
+    "divider": "#F1F5F9",
+    "muted": "#64748B"
+  },
+  "typography": {
+    "displayFontFamily": "Fredoka",
+    "textFontFamily": "Nunito",
+    "scale": {
+      "sm": 12,
+      "base": 14,
+      "lg": 16,
+      "xl": 20,
+      "2xl": 24
+    }
+  },
+  "spacing": {
+    "rule": "Generous spacing. Buttons and cards need breathing room to feel touchable and 'chunky'.",
+    "xs": 4,
+    "sm": 8,
+    "md": 12,
+    "lg": 16,
+    "xl": 24,
+    "2xl": 32,
+    "3xl": 48
+  },
+  "radius_tokens": {
+    "sm": 6,
+    "md": 12,
+    "lg": 20,
+    "pill": 999
+  },
+  "shadow_tier": "2",
+  "navigation": "stack_only",
+  "icon_set": "Phosphor",
+  "glassmorphism": {
+    "enabled": false,
+    "do's": ["Use solid chunky backgrounds with borders for a game-like UI.", "Use subtle color overlays instead of blur for performance on low-end Android."],
+    "dont's": ["Do not use blur for gaming apps optimized for low-end devices."]
+  },
+  "platform_libraries": {
+    "glass": {
+      "ios": "expo-glass-effect",
+      "android": "expo-blur",
+      "low_end_android_fallback": "solid surfaceSecondary"
+    },
+    "image": "expo-image",
+    "blur": "expo-blur",
+    "bottom_sheet": "@gorhom/bottom-sheet",
+    "animation": "react-native-reanimated",
+    "gesture": "react-native-gesture-handler"
+  },
+  "screens": [
+    {
+      "name": "Home",
+      "purpose": "The main game lobby featuring the mascot, stats, and a big playful 'PLAY' button.",
+      "states": {
+        "loading": "Animated bouncy mascot loader.",
+        "empty": "N/A - Home is never empty.",
+        "error": "Card with sad mascot and retry button."
+      },
+      "layout": "Top bar with Lives, Coins, and XP (pill-shaped containers). Center area dominated by the 'mascot_hero' image floating (using reanimated). Bottom area contains a massive, chunky pill-shaped 'JUGAR' CTA in brandPrimary, with secondary smaller buttons for Collection and Settings. Background can use the 'abstract_spheres' image with a top-to-bottom surface-colored gradient scrim to ensure UI readability."
+    },
+    {
+      "name": "World Map",
+      "purpose": "Selection of the 5 game worlds.",
+      "states": {
+        "loading": "Skeletons of world cards.",
+        "empty": "N/A.",
+        "error": "Error message with retry."
+      },
+      "layout": "Vertical scroll or grid of 5 chunky cards (Burbujas y Pop, Colores y Formas, Arena y Texturas, Movimiento y Equilibrio, Minipuzles Relajantes). Each card uses surfaceSecondary, has a thick shadow or borderStrong simulating 3D volume, and an icon or image slice."
+    },
+    {
+      "name": "Minigame",
+      "purpose": "The actual gameplay area.",
+      "states": {
+        "loading": "Loading level...",
+        "empty": "N/A",
+        "error": "Failed to load minigame."
+      },
+      "layout": "Full screen 'candy_background' with 80% opacity overlay to make the game board pop. Top HUD: Pause, Restart, Exit buttons using circular icon buttons. Score and timer centrally located."
+    },
+    {
+      "name": "Results",
+      "purpose": "Celebratory end-game screen.",
+      "states": {
+        "loading": "Calculating...",
+        "empty": "N/A",
+        "error": "N/A"
+      },
+      "layout": "Centered celebratory card on surfaceInverse (modal style). 1 to 3 huge stars (in brandTertiary), XP gained, Coins awarded. Big 'Next' button."
+    },
+    {
+      "name": "No Lives Modal",
+      "purpose": "Monetization point when out of lives.",
+      "states": {
+        "loading": "N/A",
+        "empty": "N/A",
+        "error": "N/A"
+      },
+      "layout": "Full screen overlay. Sad mascot image. Countdown timer for next life. Big prominent button 'Ver Anuncio' (brand) and 'Comprar Premium' (brandSecondary)."
+    },
+    {
+      "name": "Collection",
+      "purpose": "Show unlocked cosmetics.",
+      "states": {
+        "loading": "Grid skeleton.",
+        "empty": "Sad mascot, 'No cosmetics unlocked yet'.",
+        "error": "Retry loading collection."
+      },
+      "layout": "Grid of rounded square cards. Unlocked items are vibrant; locked items are muted or greyed out."
+    }
+  ],
+  "images": {
+    "mascot_hero": {
+      "url": "https://images.unsplash.com/photo-1638803040283-7a5ffd48dad5?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NjV8MHwxfHNlYXJjaHwyfHxjdXRlJTIwM2QlMjBjaGFyYWN0ZXIlMjBnYW1lJTIwbWFzY290fGVufDB8fHx8MTc5MzI0NTA5M3ww&ixlib=rb-4.1.0&q=85",
+      "alt": "Cute 3D mascot character wearing a hat"
+    },
+    "abstract_spheres": {
+      "url": "https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzV8MHwxfHNlYXJjaHwyfHxjb2xvcmZ1bCUyMDNEJTIwYWJzdHJhY3QlMjBzaGFwZXN8ZW58MHx8fHwxNzkzMjQ1MDg0fDA&ixlib=rb-4.1.0&q=85",
+      "alt": "Pastel 3D spheres on gradient background"
+    },
+    "candy_background": {
+      "url": "https://images.unsplash.com/photo-1582790886481-a9bcdc10ffab?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzh8MHwxfHNlYXJjaHwzfHxjYW5keSUyMGNvbG9yZnVsJTIwZ2FtZSUyMGJhY2tncm91bmR8ZW58MHx8fHwxNzkzMjQ1MDg0fDA&ixlib=rb-4.1.0&q=85",
+      "alt": "Colorful round candies game background"
+    }
+  },
+  "haptics": {
+    "primary_button": "heavy",
+    "secondary_button": "medium",
+    "minigame_success": "success",
+    "minigame_error": "error",
+    "star_awarded": "light"
+  },
+  "instructions_to_main_agent": [
+    "Follow the 'Tactile / Playful' personality heavily. Avoid flat minimalist designs; make buttons look chunky and clickable using 'shadow_tier 2' or bottom borders to simulate 3D volume.",
+    "Since it's optimized for low-end Android, DO NOT use blur. Fall back to solid backgrounds or color overlays when elevation is needed.",
+    "The primary button 'JUGAR' on the home screen should be massive and positioned in the lower thumb zone.",
+    "Do NOT use dark mode. Stick strictly to the light theme provided.",
+    "Use Phosphor icons with filled variants for a bold, game-like look.",
+    "Make sure the UI doesn't look like an admin dashboard. Use bouncy animations (react-native-reanimated) for the mascot on the home screen, and overshoot springs for button presses."
+  ]
+}

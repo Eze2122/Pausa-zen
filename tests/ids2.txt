@@ -1,0 +1,1 @@
+['liquid-colors', 'color-flow', 'neon-lines', 'color-switch', 'shape-match', 'color-sort', 'paint-splash', 'rainbow-mixer', 'pattern-glow', 'color-rings']

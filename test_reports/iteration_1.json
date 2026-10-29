@@ -1,0 +1,36 @@
+{
+  "summary": "First full test pass of PAUSA (Expo web preview, 390x844) + backend. Backend: GET /api/time and /api/ pass (2/2). All 50 games open via /play/<id>?mode=free, start, render their board/UI and survive random taps, holds and drags with 0 page errors and no red screen. Taps raised the score in 22 of 50 games during the random-input run (random input can't solve the puzzle games, so a score of 0 there is expected). Challenge mode works: the timer counts down and stops while paused, pause/resume/restart work, and a 40s timeout gives 'So close!' + 'You lost a life (4/5)'. Home then shows 4/5 with a 02:23:56 countdown. Lives go 5 to 0 via pattern-glow wrong taps. The no-lives modal shows 0/5, the timer, the watch-ad, relax and map buttons, and no continue button. On web the ad button shows 'No ads available right now...' and lives stay 0/5 (home + modal). Free mode still plays with 0 lives. Lives, timer and recent games persist after reload. Free-mode Finish shows the result (stars/XP/coins) with again/next/map buttons, and next goes to the next game. Favorites toggle works (sheet + free grid) and persists. Free world filters 0..5 show 50/10/10/10/10/10 games. Locked challenge button is disabled; relax still opens. Settings: ES/EN language switch translates Settings and Home, switches toggle, volume, premium-unavailable text, reset needs a double tap and resets coins/lives/recent. Challenges screen shows 3 daily goals, claim buttons, 10 achievements, stats and streak. Collection tabs and level-locked cosmetics display correctly. BUY/EQUIP and goal CLAIM success paths were NOT verified because I couldn't seed level/coins: the app's debounced save overwrote my localStorage seed. Main bug: game-exit-button / pause-exit-button call router.back() with no history (deep link or after result-next's router.replace), which logs 'The action GO_BACK was not handled' and does nothing.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "Play screen exit (X) and pause Exit", "issue": "router.back() is called with no history. After result-next-button (router.replace) or when /play/<id> is opened directly (deep link/refresh), Exit does nothing and logs 'The action GO_BACK was not handled by any navigator'. Reference: /app/frontend/app/play/[id].tsx:116 and :142", "testID": "game-exit-button, pause-exit-button", "priority": "HIGH"}
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Zen Garden (play/zen-garden)", "issues": ["Bottom tool buttons are cut off at 390px width ('Ra...', 'St...', 'Pl...', 'Ri...'). Use icons, a smaller font, or wrap them."]},
+      {"screen": "GameSheet", "issues": ["'Best' is hardcoded in English in the caption and not translated in ES. Reference: /app/frontend/src/components/GameSheet.tsx:49"]},
+      {"screen": "Color Rings / Liquid colors (web)", "issues": ["Web console warning 'Invalid DOM property transform-origin' from react-native-svg <G rotation origin=...>. Web only, harmless on native. Reference: /app/frontend/src/games/world2.tsx:182,351"]}
+    ],
+    "react_native_issues": []
+  },
+  "test_report_links": ["/app/backend/tests/test_time_api.py", "/app/test_reports/pytest/pytest_results.xml", "/app/tests/game_batch.py"],
+  "action_items": [
+    "Fix exit navigation: use `router.canGoBack() ? router.back() : router.replace(`/world/${def.world}`)` for game-exit-button and pause-exit-button (and anywhere else router.back() is used; 3 occurrences in app/src).",
+    "Make the Zen Garden tool labels fit at 390px width.",
+    "Translate the 'Best' label in GameSheet.",
+    "Optional design check: restarting from pause or exiting mid-challenge never costs a life, so a player about to fail can restart and avoid losing it. Confirm this is intended."
+  ],
+  "critical_code_review_comments": [
+    "No deprecated Expo packages (expo-av, expo-barcode-scanner, expo-background-fetch) were found, and react-native SafeAreaView is not used (react-native-safe-area-context is).",
+    "Ads (react-native-google-mobile-ads 17.4.0) and RevenueCat (react-native-purchases 11.0.0) are correctly unavailable on web: no life is granted and the premium-unavailable text shows.",
+    "Losing a challenge still gives +5 XP. The first game unlocks 'First pause' (+25 coins) even when lost. Acceptable, just noting it.",
+    "Balance Tower can never fail on the first drop (the overlap is always >= w/4), so fail() only fires after the tower has narrowed. Fine for gameplay, but it can't be used for a quick life-loss test."
+  ],
+  "updated_files": ["/app/backend/tests/test_time_api.py (new)", "/app/tests/game_batch.py (new helper)"],
+  "success_rate": {"backend": "100%", "frontend": "~95% (all requested flows passed except Exit with no history; buy/equip/claim success paths not verified)"},
+  "seed_data_creation": "None persisted. Seeding coins/xp through localStorage 'pausa_save_v1' (double JSON-stringified) did not stick because the app's in-memory state and 250ms debounced save overwrote it.",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Each browser_automation call gets a fresh storage context (lives start at 5/5). Quick life loss: /play/pattern-glow?mode=challenge, start, wait ~1.4s, tap the top-left pad repeatedly (fail() fires on a wrong tap), then result-again-button. Wait about 1s after game-sheet appears before clicking (slide animation). World nodes spring in from scale 0, so wait about 2s. liquid-colors, rainbow-mixer and texture-mixer have no game-board testID; they use liquid-*, mixer-*, texture-* button testIDs. Run games in batches of 10 per call to avoid timeouts. Still to verify: collection buy/equip success, goal claim success.",
+  "rca_of_issue": "Exit no-op: PlayScreen calls router.back() unconditionally. result-next uses router.replace, and deep links/refresh have no previous entry, so the stack has nothing to go back to. Reproduce: open /play/bubble-wrap?mode=free directly, tap Start then Finish, tap Next (now on pop-combo), tap X: the URL stays on pop-combo and a 'GO_BACK was not handled' dev error toast appears. Fix: check router.canGoBack() and fall back to router.replace('/world/<n>') or '/map'."
+}

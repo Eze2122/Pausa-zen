@@ -1,0 +1,5 @@
+# Política de privacidad de PAUSA / PAUSA Privacy Policy
+
+**ES** — PAUSA no requiere registro. Tu progreso (vidas, monedas virtuales, ajustes, favoritos y puntuaciones) se guarda únicamente en tu teléfono. La app usa Google AdMob para mostrar anuncios; AdMob puede recopilar identificadores del dispositivo y datos de uso según tu consentimiento (formulario UMP). Las compras se procesan mediante Google Play y RevenueCat; no almacenamos datos de pago. Las monedas virtuales no tienen valor monetario. La app consulta la hora de nuestro servidor solo para validar los temporizadores de vidas. Contacto: [tu email].
+
+**EN** — PAUSA requires no account. Your progress is stored only on your phone. The app uses Google AdMob, which may collect device identifiers and usage data according to your consent. Purchases are processed by Google Play and RevenueCat; we don't store payment data. Virtual coins have no monetary value. The app reads our server time only to validate life timers. Contact: [your email].
